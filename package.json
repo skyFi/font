@@ -1,5 +1,5 @@
 {
-  "name": "font",
+  "name": "easyfont",
   "version": "1.0.0",
   "description": "font processor",
   "main": "index.js",
