@@ -1,2 +1,8 @@
-require('../src/index');
-strDOMLength('adb').then(function (measure) { console.log(measure) }, function (err) { console.log(err) });
+var strDOMLength = require('../src/index');
+
+strDOMLength('Skylor.min')
+.then(function(data) {
+  if (data) {
+    console.log(data);
+  }
+});

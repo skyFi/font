@@ -33,6 +33,7 @@
   Issue tracker: https://github.com/Pomax/Font.js/issues
 
 **/
+;
 var window = global.window || {};
 (function (window) {
   // init Font
@@ -905,8 +906,7 @@ var window = global.window || {};
     define(function () {
       return Font;
     });
-  } else {
-    window.Font = Font;
   }
+  window.Font = Font;
 }(window));
 module.exports = window.Font;

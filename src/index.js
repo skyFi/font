@@ -1,11 +1,11 @@
 'use strict';
 
 var Font = require('./lib/font.js');
-
 var strDOMLength = function (str, option) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function(resolve) {
     if (!Font) {
-      reject('font init err, retry it.');
+      console.error('easyfont should run into browser env.');
+      resolve(null);
     }
     // config option
     var _opt = Object.assign({
@@ -13,7 +13,7 @@ var strDOMLength = function (str, option) {
       fontSize: 16,
       fontWeight: '',
       src: '', // use system font(s)
-    }, option);
+    }, option || {});
 
     // empty string
     if (!str) {
@@ -40,7 +40,10 @@ var strDOMLength = function (str, option) {
     }
 
     // error handler
-    font.onerror = function (err) { reject(err); }
+    font.onerror = function (err) {
+      console.error(err);
+      resolve(null); 
+    }
 
     // then kick off font loading by assigning the "src" property
     font.fontFamily = _opt.fontFamily;
