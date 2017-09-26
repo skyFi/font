@@ -1,6 +1,6 @@
 'use strict';
 
-require('./lib/font.js');
+var Font = require('./lib/font.js');
 
 var strDOMLength = function (str, option) {
   return new Promise(function(resolve, reject) {
