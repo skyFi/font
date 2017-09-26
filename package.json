@@ -1,6 +1,6 @@
 {
   "name": "easyfont",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "font processor, DOM中字符的运算（一定字数的文字宽度等）",
   "main": "index.js",
   "directories": {
