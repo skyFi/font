@@ -4,6 +4,25 @@
 
 - [ ] 如何计算一行（固定宽度）元素内能容纳多少个文字
 
+# Install
+
+```
+npm install easyfont --save
+```
+
+# Usage
+
+```
+import Font from 'easyfont';
+
+const font = Font(/* String you want to use */'some string...', /* font size in DOM */14);
+
+console.log(font.width); // string width in your DOM
+console.log(font.fontSize); 
+console.log(font.fontFamily);
+console.log(font.src);
+```
+
 # License
 
 MIT License
