@@ -33,8 +33,18 @@
   Issue tracker: https://github.com/Pomax/Font.js/issues
 
 **/
-
+var window = global.window || {};
 (function (window) {
+  // init Font
+  function Font() {
+    // if this is not specified, a random name is used
+    this.fontFamily = "fjs" + (999999 * Math.random() | 0);
+  }
+
+  // judge whether server
+  if (!global.document) {
+    return;
+  }
 
   // 1) Do we have a mechanism for binding implicit get/set?
   if (!Object.defineProperty) {
@@ -119,7 +129,6 @@
     });
   }(window));
 
-
   // IE9 does not have binary-to-ascii built in O_O
   if (!window.btoa) {
     // Code borrowed from PHP.js (http://phpjs.org/functions/base64_encode:358)
@@ -148,16 +157,6 @@
       var r = data.length % 3;
       return (r ? enc.slice(0, r - 3) : enc) + '==='.slice(r || 3);
     };
-  }
-
-  /**
-
-    Not-borrowed-code starts here!
-
-   **/
-  function Font() {
-    // if this is not specified, a random name is used
-    this.fontFamily = "fjs" + (999999 * Math.random() | 0);
   }
 
   // the font resource URL
@@ -910,3 +909,4 @@
     window.Font = Font;
   }
 }(window));
+module.exports = window.Font;
