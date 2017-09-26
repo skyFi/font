@@ -9,7 +9,7 @@ var strDOMLength = function (str, option) {
     }
     // config option
     var _opt = Object.assign({
-      fontFamily: `'PingFang SC', sans-serif`,
+      fontFamily: "'PingFang SC', sans-serif",
       fontSize: 16,
       fontWeight: '',
       src: '', // use system font(s)
