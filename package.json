@@ -28,5 +28,6 @@
   "bugs": {
     "url": "https://github.com/skyFi/font/issues"
   },
-  "homepage": "https://github.com/skyFi/font#readme"
+  "homepage": "https://github.com/skyFi/font#readme",
+  "dependencies": {}
 }
