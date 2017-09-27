@@ -100,7 +100,7 @@ EasyFont.prototype.value = function () {
               ellipsis: _truncateOpt.ellipsis
             });
           } else {
-            var lastIndex = Math.floor(_truncateOpt.width * _truncateOpt.row * _resultString.length / result.width);
+            var lastIndex = Math.floor(_truncateOpt.width * _truncateOpt.row * _resultString.length / result.width) - 1;
             _truncateOpt.ellipsis = _truncateOpt.ellipsis || '';
             resolve({
               result: _resultString.slice(0, lastIndex - _truncateOpt.ellipsis.length) + _truncateOpt.ellipsis,
