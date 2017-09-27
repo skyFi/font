@@ -101,9 +101,10 @@ EasyFont.prototype.value = function () {
             });
           } else {
             var lastIndex = Math.floor(_truncateOpt.width * _truncateOpt.row * _resultString.length / result.width);
+            _truncateOpt.ellipsis = _truncateOpt.ellipsis || '';
             resolve({
-              result: _resultString.slice(0, lastIndex),
-              origin: originString,
+              result: _resultString.slice(0, lastIndex - _truncateOpt.ellipsis.length) + _truncateOpt.ellipsis,
+              origin: originString,    
               row: _truncateOpt.row,
               boxWidth: _truncateOpt.width,
               lack: _truncateOpt.lack,
