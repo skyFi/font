@@ -101,7 +101,8 @@ EasyFont.prototype.value = function () {
             });
           } else {
             var lastIndex = Math.floor(_truncateOpt.width * _truncateOpt.row * _resultString.length / result.lenght);
-
+            console.log(_truncateOpt.width, _truncateOpt.row, _resultString.length , result.lenght);
+            console.log(lastIndex, _resultString, _resultString.slice(0, lastIndex));
             resolve({
               result: _resultString.slice(0, lastIndex),
               origin: originString,
