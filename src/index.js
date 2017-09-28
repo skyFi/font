@@ -4,7 +4,8 @@ var Font = require('./lib/font.js');
 
 // 母体
 function EasyFont() {
-  this.$string = '';  // 初始值
+  this.$id = null;   // 唯一标记
+  this.$string = ''; // 初始值
   this.$option = {}; // 配置信息
   this.$result = {}; // 输出值
   this.$operationName = ''; // 操作
@@ -18,7 +19,12 @@ function EasyFont() {
 EasyFont.prototype.pipe = function(str) {
   this.$string = str;
   return this;
-}
+};
+
+EasyFont.prototype.id = function(id) {
+  this.$id = id;
+  return this;
+};
 
 /**
  * 配置参数
@@ -31,7 +37,7 @@ EasyFont.prototype.option = function (option) {
   this._settedOption = true;
   verifyOption.bind(this)();
   return this;
-}
+};
 
 /**
  * 设置操作
@@ -51,7 +57,7 @@ EasyFont.prototype.operation = function (operation) {
     })
   }
   return this;
-}
+};
 
 /**
  * 操作类型
@@ -59,7 +65,7 @@ EasyFont.prototype.operation = function (operation) {
 EasyFont.prototype.operationType = {
   measure: 'measure',
   truncate: 'truncate',
-}
+};
 
 /**
  * 终点函数，获取结果值
@@ -72,13 +78,14 @@ EasyFont.prototype.value = function () {
    * @option { fontFamily, fontSize, fontWeight, src }
    */
   if (this.$operationName === this.operationType.measure) {
-    return getMeasure.bind(this, this.$string, this.$option)();
+    return getMeasure.bind(this, this.$string, this.$option, this.$id)();
   }
 
   // 字符串规则截断
   if (this.$operationName === this.operationType.truncate) {
     var originString = this.$string;
     var option = this.$option;
+    var id = this.$id;
     return new Promise(function (resolve) {
       var _truncateOpt = Object.assign({}, {
         lack: 0,
@@ -86,12 +93,13 @@ EasyFont.prototype.value = function () {
       }, option);
 
       var _resultString = originString + _truncateOpt.ellipsis;
-      getMeasure.bind(this, _resultString, option)().then(function(result) {
+      getMeasure.bind(this, _resultString, option, id)().then(function(result) {
         if (result) {
           var originRow = result.width / _truncateOpt.width;
           // 字符串短的情况
           if (originRow < _truncateOpt.row) {
             resolve({
+              id: id,
               result: _resultString,
               origin: originString,
               row: _truncateOpt.row,
@@ -103,7 +111,8 @@ EasyFont.prototype.value = function () {
             var lastIndex = Math.floor(_truncateOpt.width * _truncateOpt.row * _resultString.length / result.width) - 1;
             _truncateOpt.ellipsis = _truncateOpt.ellipsis || '';
             resolve({
-              result: _resultString.slice(0, lastIndex - _truncateOpt.ellipsis.length) + _truncateOpt.ellipsis,
+              id: id,
+              result: _resultString.slice(0, lastIndex - _truncateOpt.ellipsis.length - _truncateOpt.lack) + _truncateOpt.ellipsis,
               origin: originString,    
               row: _truncateOpt.row,
               boxWidth: _truncateOpt.width,
@@ -115,7 +124,7 @@ EasyFont.prototype.value = function () {
       });
     });
   }
-}
+};
 
 // 校验配置
 function verifyOption () {
@@ -125,7 +134,7 @@ function verifyOption () {
 }
 
 // 测量字符串
-function getMeasure(str, option) {
+function getMeasure(str, option, id) {
   return new Promise(function (resolve) {
     // 判断依赖
     if (!Font) {
@@ -143,6 +152,7 @@ function getMeasure(str, option) {
     // 『空』字符串的情况
     if (!str) {
       resolve({
+        id: id,
         width: 0,
         fontSize: _opt.fontSize,
         fontFamily: _opt.fontFamily,
@@ -156,18 +166,19 @@ function getMeasure(str, option) {
     font.onload = function () {
       var measure = font.measureText(str, _opt.fontSize, _opt.fontWeight);
       resolve({
+        id: id,
         width: measure.width,
         fontSize: measure.fontSize,
         fontFamily: measure.fontFamily,
         src: _opt.src || 'system font'
       });
-    }
+    };
 
     // 加载失败
     font.onerror = function (err) {
       console.error('EasyFont Error: ' + err);
       resolve(null);
-    }
+    };
 
     // 使用src标记加载事件完成
     font.fontFamily = _opt.fontFamily;
@@ -176,9 +187,3 @@ function getMeasure(str, option) {
 }
 
 module.exports = EasyFont;
-
-
-/*
-输入： string, width, row, lack, ellipsis
-
-*/
