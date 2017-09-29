@@ -57,7 +57,7 @@ console.log(res2.width); // 测量文字的宽度
 
 _this = new EasyFont();_
 
-#### pipi(string)
+## pipi(string)
 导入需要操作的字符串到操作流中。
 * 参数
 
@@ -65,7 +65,7 @@ _this = new EasyFont();_
 * 返回
   * 流
 
-#### id(any)
+## id(any)
 标记返回结果，在特定情况这个可能会拯救你的人生
 * 参数
 
@@ -73,7 +73,7 @@ _this = new EasyFont();_
 * 返回
   * 流
 
-#### operation(type)
+## operation(type)
 
 操作类型，暂时可以为`measure`和`truncate`这两个值
 
@@ -90,7 +90,7 @@ _this = new EasyFont();_
 
   * 流
 
-#### option(option)
+## option(option)
 
 字符串操作的配置信息
 
@@ -99,7 +99,7 @@ _this = new EasyFont();_
 * 返回
   * 流
 
-#### value()
+## value()
 
 流操作的终止函数，也是获取最后值的函数
 
