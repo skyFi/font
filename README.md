@@ -54,7 +54,7 @@ console.log(res2); // 测量文字的结果，宽度等
 
 # Method
 
--- ing
+> come soon.
 
 # License
 
