@@ -2,8 +2,8 @@
 
 需求列表：
 
-- [ ] 如何计算一行（固定宽度）元素内能容纳多少个文字
-- [x] 计算文字的宽度
+- [x] 智能多行省略，JavaScript截断文字（尾部空格，自定义省略符号等）beta
+- [x] 计算文字的宽度（给一串文字，告诉你它的宽度）
 
 # Install
 
@@ -14,15 +14,97 @@ npm install easyfont --save
 # Usage
 
 ```
-import Font from 'easyfont';
+import EasyFont from 'easyfont';
 
-const font = Font(/* String you want to use */'some string...', /* font size in DOM */14);
+// 例子采用ES7语法，需你自行替换到当前工程语言环境，建议使用ES7，为啥？看着舒服，读起来简单明了 ^o^
+// 截断字符
+const omit = async (str) => {
+  const result = await new EasyFont().pipe(str)
+          .operation('truncate')
+          .option({ width: 270, row: 2, fontSize: 14, fontFamily: "'PingFang SC', sans-serif" })
+          .value();
+  return result;
+}
 
-console.log(font.width); // string width in your DOM
-console.log(font.fontSize); 
-console.log(font.fontFamily);
-console.log(font.src);
+// 获取文字宽度
+const measure = async (str) => {
+  const result = await new EasyFont().pipe(str)
+          .operation('measure')
+          .option({ fontSize: 14, fontFamily: "'PingFang SC', sans-serif" })
+          .value();
+  return result;
+}
+...
+const res1 = await omit('Skylor.min is very handsome!');
+const res2 = await measure('Skylor.min is very handsome!');
+console.log(res1.result); // 省略后的字符，或许这就是你需要的 ^o^
+console.log(res2.width); // 测量文字的宽度
+...
 ```
+
+# Option
+
+* fontSize -> set font size.
+* fontFamily -> set font family, eg: 'PingFang SC', sans-serif.
+* fontWeight -> set font weight, eg: bold.
+* src -> set font src, (use for custom font family, deprecated!)
+* width -> set font box width.
+* row -> omit the number of rows.
+* lack -> at the end of the space num.
+* ellipsis -> custom apostrophes.
+
+# Method
+
+_this = new EasyFont();_
+
+## pipi(string)
+导入需要操作的字符串到操作流中。
+* 参数
+
+  1. string __(String)__ 导入的字符串
+* 返回
+  * 流
+
+## id(any)
+标记返回结果，在特定情况这个可能会拯救你的人生
+* 参数
+
+  1. any __(Any)__ 标记的记号，可以是任何你想放进去的格式
+* 返回
+  * 流
+
+## operation(type)
+
+操作类型，暂时可以为`measure`和`truncate`这两个值
+
+* 参数
+
+  1. type __(Type)__ 操作类型
+
+     * `measure`：测量字符串，最后返回宽度等信息
+
+
+     * `truncate`：截断字符串，最后返回截断后的字符串等信息
+
+* 返回
+
+  * 流
+
+## option(option)
+
+字符串操作的配置信息
+
+* 参数
+  * option __(Object)__ 配置，具体见上面的配置
+* 返回
+  * 流
+
+## value()
+
+流操作的终止函数，也是获取最后值的函数
+
+* 返回
+  * Promise 返回一个promise，值为操作的结果值。
 
 # License
 
