@@ -14,7 +14,7 @@
   <canvas> and Object.defineProperty - This includes
   all versions of Firefox, Chrome, Opera, IE and Safari
   that were 'current' (Firefox 9, Chrome 16, Opera 11.6,
-  IE9, Safari 5.1) at the time Font.js was released.
+  IE10, Safari 5.1) at the time Font.js was released.
 
   Font.js will not work on IE8 or below due to the lack
   of Object.defineProperty - I recommend using the
@@ -56,48 +56,6 @@ var window = global.window || {};
   if (!document.createElement("canvas").getContext) {
     throw ("Font.js requires <canvas> and the Canvas2D API, which this browser does not support.");
   }
-
-  // Make sure type arrays are available in IE9
-  // Code borrowed from pdf.js (https://gist.github.com/1057924)
-  (function (window) {
-
-    function subarray(start, end) {
-      return this.slice(start, end);
-    }
-
-    function set_(array, offset) {
-      var i, n = array.length;
-      if (arguments.length < 2) {
-        offset = 0;
-      }
-      for (i = 0; i < n; ++i, ++offset) {
-        this[offset] = array[i] & 0xFF;
-      }
-    }
-
-    function TypedArray(arg1) {
-      var result, i;
-      if (typeof arg1 === "number") {
-        result = new Array(arg1);
-        for (i = 0; i < arg1; ++i) {
-          result[i] = 0;
-        }
-      } else {
-        result = arg1.slice(0);
-      }
-      result.subarray = subarray;
-      result.buffer = result;
-      result.byteLength = result.length;
-      result.set = set_;
-      if (typeof arg1 === "object" && arg1.buffer) {
-        result.buffer = arg1.buffer;
-      }
-      return result;
-    }
-    window.Uint8Array = TypedArray;
-    window.Uint32Array = TypedArray;
-    window.Int32Array = TypedArray;
-  }(window));
 
   // Also make sure XHR understands typing.
   // Code based on pdf.js (https://gist.github.com/1057924)
